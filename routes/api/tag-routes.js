@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { is } = require("sequelize/types/lib/operators");
 const { Tag, Product, ProductTag } = require("../../models");
 
 // The `/api/tags` endpoint
@@ -11,7 +12,6 @@ router.get("/", (req, res) => {
       {
         model: Product,
         through: ProductTag,
-        attributes: [],
       },
     ],
   })
@@ -32,9 +32,8 @@ router.get("/:id", (req, res) => {
   Tag.findByPk(tagId, {
     include: [
       {
-        model: Tag,
+        model: Product,
         through: ProductTag,
-        attributes: [],
       },
     ],
   })
@@ -64,6 +63,22 @@ router.post("/", (req, res) => {
 
 router.put("/:id", (req, res) => {
   // update a tag's name by its `id` value
+  Tag.update(req.body, {
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((isUpdated) => {
+      res
+        .status(200)
+        .json({
+          message: isUpdated ? "Tag is updated." : "Nothing to update.",
+        });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json(err);
+    });
 });
 
 router.delete("/:id", (req, res) => {
