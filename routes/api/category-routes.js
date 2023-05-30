@@ -80,7 +80,7 @@ router.delete("/:id", (req, res) => {
   // delete a category by its `id` value
   const categoryId = req.params.id;
 
-  Category.destroy(categoryId, {
+  Category.destroy({
     where: {
       id: categoryId,
     },

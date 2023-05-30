@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { is } = require("sequelize/types/lib/operators");
+// const { is } = require("sequelize/types/lib/operators");
 const { Tag, Product, ProductTag } = require("../../models");
 
 // The `/api/tags` endpoint
@@ -69,11 +69,9 @@ router.put("/:id", (req, res) => {
     },
   })
     .then((isUpdated) => {
-      res
-        .status(200)
-        .json({
-          message: isUpdated ? "Tag is updated." : "Nothing to update.",
-        });
+      res.status(200).json({
+        message: isUpdated ? "Tag is updated." : "Nothing to update.",
+      });
     })
     .catch((err) => {
       console.error(err);
@@ -85,7 +83,7 @@ router.delete("/:id", (req, res) => {
   // delete on tag by its `id` value
   const tagId = req.params.id;
 
-  Tag.destroy(tagId, {
+  Tag.destroy({
     where: {
       id: tagId,
     },
