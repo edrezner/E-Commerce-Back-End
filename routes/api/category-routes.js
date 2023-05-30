@@ -27,7 +27,7 @@ router.get("/:id", (req, res) => {
   // be sure to include its associated Products
   const categoryId = req.params.id;
 
-  Tag.findByPk(categoryId, {
+  Category.findByPk(categoryId, {
     include: [
       {
         model: Product,
@@ -80,7 +80,7 @@ router.delete("/:id", (req, res) => {
   // delete a category by its `id` value
   const categoryId = req.params.id;
 
-  Tag.destroy(categoryId, {
+  Category.destroy(categoryId, {
     where: {
       id: categoryId,
     },
