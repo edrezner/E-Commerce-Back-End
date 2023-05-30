@@ -50,10 +50,30 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   // create a new category
+  Category.create(req.body)
+    .then((category) => res.status(200).json(category))
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json(err);
+    });
 });
 
 router.put("/:id", (req, res) => {
   // update a category by its `id` value
+  Category.update(req.body, {
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((isUpdated) => {
+      res.status(200).json({
+        message: isUpdated ? "Category is updated." : "Nothing to update.",
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json(err);
+    });
 });
 
 router.delete("/:id", (req, res) => {
